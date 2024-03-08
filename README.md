@@ -36,7 +36,7 @@ JAVA17, Gradle, SpringBoot 3.2.3, Oracle
 <details>
 <summary>ERD</summary>
 <div markdown="1" style="padding-left: 15px;">
-<img src="https://github.com/HancheolJeong/PenguinMall/assets/70940120/b2722d5d-2041-4930-80e9-2d6dadafa868.png" width="800px"/>
+<img src="https://github.com/HancheolJeong/PenguinMall/assets/70940120/f1cbac4e-e5bf-46cf-8054-c67063673aad.png" width="800px"/>
 </div>
 </details>
 
