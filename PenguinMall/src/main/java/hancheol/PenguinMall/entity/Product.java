@@ -3,6 +3,8 @@ package hancheol.PenguinMall.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 /**
  * 데이터베이스 테이블에 직접 매핑되는 객체
  */
@@ -29,4 +31,7 @@ public class Product extends BaseEntity{
     String info; // 상품정보
     Integer allowance; //판매허용여부 default 0
     String seller_id; // seller.id 참조
+
+    @OneToMany(mappedBy = "product")
+    private List<Product_img> images; // 상품 이미지 리스트
 }

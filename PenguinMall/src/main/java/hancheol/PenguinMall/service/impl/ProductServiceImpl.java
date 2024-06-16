@@ -1,7 +1,10 @@
 package hancheol.PenguinMall.service.impl;
 
 import hancheol.PenguinMall.dto.ProductDTO;
+import hancheol.PenguinMall.dto.Product_imgDTO;
+import hancheol.PenguinMall.dto.Product_imgDetailDTO;
 import hancheol.PenguinMall.entity.Product;
+import hancheol.PenguinMall.entity.Product_img;
 import hancheol.PenguinMall.repository.ProductRepository;
 import hancheol.PenguinMall.service.ProductService;
 import org.springframework.scheduling.annotation.Async;
@@ -11,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -103,6 +107,36 @@ public class ProductServiceImpl implements ProductService {
             throw new RuntimeException("Product not found");
         }
         productRepository.deleteById(id);
+    }
+
+    @Override
+    public Product_imgDetailDTO getProductImageDetails(Integer productId) {
+        Product product = productRepository.findById(productId);
+        Product_imgDetailDTO dto = new Product_imgDetailDTO();
+        dto.setId(product.getId());
+        dto.setName(product.getName());
+        dto.setPrice(product.getPrice());
+        dto.setQuantity(product.getQuantity());
+        dto.setDiscount_rate(product.getDiscount_rate());
+        dto.setCategory(product.getCategory());
+        dto.setSubcategory(product.getSubcategory());
+        dto.setImage_path(product.getImage_path());
+        dto.setInfo(product.getInfo());
+        dto.setAllowance(product.getAllowance());
+        dto.setSeller_id(product.getSeller_id());
+        dto.setCreate_dt(product.getCreate_dt());
+//        dto.setImagePaths(product.getImages().stream().map(Product_img::getImage_path).collect(Collectors.toList()));
+        List<Product_imgDTO> images = product.getImages().stream()
+                .map(img -> {
+                    Product_imgDTO imgDTO = new Product_imgDTO();
+                    imgDTO.setId(String.valueOf(img.getId()));  // ID가 Integer라면 String으로 변환
+                    imgDTO.setSequence(img.getSequence());
+                    imgDTO.setImage_path(img.getImg_path());
+                    imgDTO.setPid(product.getId());  // 상품 ID를 pid 필드에 설정
+                    return imgDTO;
+                }).collect(Collectors.toList());
+        dto.setImagePaths(images);  // 변환된 이미지 DTO 리스트 설정
+        return dto;
     }
 
     private Product mapProductDtoToProduct(ProductDTO dto) {
