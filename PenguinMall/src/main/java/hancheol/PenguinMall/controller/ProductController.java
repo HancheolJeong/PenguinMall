@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 public class ProductController {
@@ -22,9 +23,11 @@ public class ProductController {
     }
 
     @PostMapping("product")
-    public ProductDTO saveProduct(@RequestBody ProductDTO productDTO) {
+    public CompletableFuture<ResponseEntity<ProductDTO>> saveProduct(@RequestBody ProductDTO productDTO) {
         LOGGER.info("Saving new product: {}", productDTO);
-        return productService.saveProduct(productDTO);
+        return productService.saveProduct(productDTO)
+                .thenApply(ResponseEntity::ok)// CompletableFuture의 결과와 ProductDTO 객체가 준비되면 HTTP Status Code 200과 ProductDTO를 가지고 있는 ResponseEntity 객체를 생성한다
+                .exceptionally(e -> ResponseEntity.notFound().build()); // 예외가 발생했을 때, HTTP Status Code 404를 반환하는 ResponseEntity 객체를 생성한다. 이는 클라이언트에게 해당 요청이 실패했음을 알립니다.
     }
 
     @GetMapping("product")

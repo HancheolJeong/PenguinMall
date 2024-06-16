@@ -11,7 +11,7 @@ import lombok.*;
 @Builder
 @ToString
 @Table(name="wishlist")
-public class wishlist extends BaseEntity{
+public class Wishlist extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 또는 GenerationType.AUTO 등
     Integer id; // id

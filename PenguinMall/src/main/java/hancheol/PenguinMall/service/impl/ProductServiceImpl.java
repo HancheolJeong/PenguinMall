@@ -4,12 +4,16 @@ import hancheol.PenguinMall.dto.ProductDTO;
 import hancheol.PenguinMall.entity.Product;
 import hancheol.PenguinMall.repository.ProductRepository;
 import hancheol.PenguinMall.service.ProductService;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Service
+@Transactional
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     public ProductServiceImpl(ProductRepository productRepository)
@@ -17,28 +21,19 @@ public class ProductServiceImpl implements ProductService {
         this.productRepository = productRepository;
     }
 
+    @Async
     @Override
-    public ProductDTO saveProduct(ProductDTO productDTO)
+    public CompletableFuture<ProductDTO> saveProduct(ProductDTO productDTO)
     {
-        Product product = new Product();
-        product.setName(productDTO.getName());
-        product.setPrice(productDTO.getPrice());
-        product.setQuantity(productDTO.getQuantity());
-        product.setDiscount_rate(productDTO.getDiscount_rate());
-        product.setCategory(productDTO.getCategory());
-        product.setSubcategory(productDTO.getSubcategory());
-        product.setImage_path(productDTO.getImage_path());
-        product.setInfo(productDTO.getInfo());
-        product.setAllowance(productDTO.getAllowance());
-        product.setSeller_id(productDTO.getSeller_id());
+        Product product = mapProductDtoToProduct(productDTO);
 
         // 엔티티 저장 id랑 create_dt는 알아서 저장된다. seller_id는 참조키!
         product = productRepository.save(product);
-
         productDTO.setId(product.getId());
-        return productDTO;
+        return CompletableFuture.completedFuture(productDTO);
     }
 
+    @Async
     @Override
     public List<ProductDTO> findAllProducts() {
         List<Product> productList = productRepository.findAll();
@@ -61,6 +56,7 @@ public class ProductServiceImpl implements ProductService {
         return productDTOList;
     }
 
+    @Async
     @Override
     public ProductDTO findProductById(String id) {
         Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
@@ -81,6 +77,7 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
+    @Async
     @Override
     public ProductDTO updateProduct(String id, ProductDTO productDTO) {
         Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
@@ -99,12 +96,44 @@ public class ProductServiceImpl implements ProductService {
         productDTO.setId(product.getId());
         return productDTO;
     }
-
+    @Async
     @Override
     public void deleteProduct(String id) {
         if (!productRepository.existsById(id)) {
             throw new RuntimeException("Product not found");
         }
         productRepository.deleteById(id);
+    }
+
+    private Product mapProductDtoToProduct(ProductDTO dto) {
+        Product product = new Product();
+        product.setName(dto.getName());
+        product.setPrice(dto.getPrice());
+        product.setQuantity(dto.getQuantity());
+        product.setDiscount_rate(dto.getDiscount_rate());
+        product.setCategory(dto.getCategory());
+        product.setSubcategory(dto.getSubcategory());
+        product.setImage_path(dto.getImage_path());
+        product.setInfo(dto.getInfo());
+        product.setAllowance(dto.getAllowance());
+        product.setSeller_id(dto.getSeller_id());
+        return product;
+    }
+
+    private ProductDTO mapProductToProductDto(Product product) {
+        ProductDTO dto = new ProductDTO();
+        dto.setId(product.getId());
+        dto.setName(product.getName());
+        dto.setPrice(product.getPrice());
+        dto.setQuantity(product.getQuantity());
+        dto.setDiscount_rate(product.getDiscount_rate());
+        dto.setCategory(product.getCategory());
+        dto.setSubcategory(product.getSubcategory());
+        dto.setImage_path(product.getImage_path());
+        dto.setInfo(product.getInfo());
+        dto.setAllowance(product.getAllowance());
+        dto.setSeller_id(product.getSeller_id());
+        dto.setCreate_dt(product.getCreate_dt());
+        return dto;
     }
 }
