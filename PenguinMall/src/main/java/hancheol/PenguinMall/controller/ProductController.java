@@ -1,4 +1,5 @@
 package hancheol.PenguinMall.controller;
+import hancheol.PenguinMall.dto.ProductContentDetailDTO;
 import hancheol.PenguinMall.dto.Product_imgDetailDTO;
 import org.springframework.http.ResponseEntity;
 import hancheol.PenguinMall.dto.ProductDTO;
@@ -53,6 +54,17 @@ public class ProductController {
         try {
             LOGGER.info("Fetching product with ID: {}", id);
             return ResponseEntity.ok(productService.getProductImageDetails(id));
+        } catch (RuntimeException e) {
+            LOGGER.error("Error fetching product with ID: {}", id, e);
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("product/test2/{id}")
+    public ResponseEntity<ProductContentDetailDTO> findProductById3(@PathVariable Integer id) {
+        try {
+            LOGGER.info("Fetching product with ID: {}", id);
+            return ResponseEntity.ok(productService.getProductContentDetails(id));
         } catch (RuntimeException e) {
             LOGGER.error("Error fetching product with ID: {}", id, e);
             return ResponseEntity.notFound().build();

@@ -1,10 +1,9 @@
 package hancheol.PenguinMall.service.impl;
 
-import hancheol.PenguinMall.dto.ProductDTO;
-import hancheol.PenguinMall.dto.Product_imgDTO;
-import hancheol.PenguinMall.dto.Product_imgDetailDTO;
+import hancheol.PenguinMall.dto.*;
 import hancheol.PenguinMall.entity.Product;
 import hancheol.PenguinMall.entity.Product_img;
+import hancheol.PenguinMall.entity.Product_qna;
 import hancheol.PenguinMall.repository.ProductRepository;
 import hancheol.PenguinMall.service.ProductService;
 import org.springframework.scheduling.annotation.Async;
@@ -136,6 +135,61 @@ public class ProductServiceImpl implements ProductService {
                     return imgDTO;
                 }).collect(Collectors.toList());
         dto.setImagePaths(images);  // 변환된 이미지 DTO 리스트 설정
+        return dto;
+    }
+
+    @Override
+    public ProductContentDetailDTO getProductContentDetails(Integer productId) {
+        Product product = productRepository.findById(productId);
+        ProductContentDetailDTO dto = new ProductContentDetailDTO();
+        dto.setId(product.getId());
+        dto.setName(product.getName());
+        dto.setPrice(product.getPrice());
+        dto.setQuantity(product.getQuantity());
+        dto.setDiscount_rate(product.getDiscount_rate());
+        dto.setCategory(product.getCategory());
+        dto.setSubcategory(product.getSubcategory());
+        dto.setImage_path(product.getImage_path());
+        dto.setInfo(product.getInfo());
+        dto.setAllowance(product.getAllowance());
+        dto.setSeller_id(product.getSeller_id());
+        dto.setCreate_dt(product.getCreate_dt());
+//        dto.setImagePaths(product.getImages().stream().map(Product_img::getImage_path).collect(Collectors.toList()));
+        List<Product_imgDTO> images = product.getImages().stream()
+                .map(img -> {
+                    Product_imgDTO imgDTO = new Product_imgDTO();
+                    imgDTO.setId(String.valueOf(img.getId()));  // ID가 Integer라면 String으로 변환
+                    imgDTO.setSequence(img.getSequence());
+                    imgDTO.setImage_path(img.getImg_path());
+                    imgDTO.setPid(product.getId());  // 상품 ID를 pid 필드에 설정
+                    return imgDTO;
+                }).collect(Collectors.toList());
+        dto.setImagePaths(images);  // 변환된 이미지 DTO 리스트 설정
+
+        List<Product_qnaDTO> qnas = product.getQnas().stream()
+                .map(qna -> {
+                    Product_qnaDTO qnaDTO = new Product_qnaDTO();
+                    qnaDTO.setId(String.valueOf(qna.getId()));  // ID가 Integer라면 String으로 변환
+                    qnaDTO.setTitle(qna.getTitle());
+                    qnaDTO.setQuestion(qna.getQuestion());
+                    qnaDTO.setAnswer(qna.getAnswer());
+                    qnaDTO.setCid(qna.getCid());
+                    qnaDTO.setPid(product.getId());  // 상품 ID를 pid 필드에 설정
+                    return qnaDTO;
+                }).collect(Collectors.toList());
+        dto.setProduct_qnas(qnas);  // 변환된 이미지 DTO 리스트 설정
+
+        List<ReviewDTO> reviews = product.getReviews().stream()
+                .map(rv -> {
+                    ReviewDTO reviewDTO = new ReviewDTO();
+                    reviewDTO.setId(rv.getId());
+                    reviewDTO.setTitle(rv.getTitle());
+                    reviewDTO.setContent(rv.getContent());
+                    reviewDTO.setCid(rv.getCid());
+                    reviewDTO.setPid(product.getId());  // 상품 ID를 pid 필드에 설정
+                    return reviewDTO;
+                }).collect(Collectors.toList());
+        dto.setReviews(reviews);  // 변환된 이미지 DTO 리스트 설정
         return dto;
     }
 

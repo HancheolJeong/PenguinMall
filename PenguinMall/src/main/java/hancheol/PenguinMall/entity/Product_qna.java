@@ -17,6 +17,11 @@ public class Product_qna {
     String title; // 제목
     String question; // 질문
     String answer; // 답변
-    Integer pid; // product.id 참조
+
+    @ManyToOne
+    @JoinColumn(name = "pid", referencedColumnName = "id")
+    private Product product; // 참조되는 상품
+//    Integer pid; // product.id 참조
+
     String cid; // customer.id 참조
 }

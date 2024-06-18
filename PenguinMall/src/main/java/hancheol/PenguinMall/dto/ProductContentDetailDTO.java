@@ -1,5 +1,7 @@
 package hancheol.PenguinMall.dto;
 
+import hancheol.PenguinMall.entity.Product_qna;
+import hancheol.PenguinMall.entity.Review;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -17,7 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 @Builder
-public class Product_imgDetailDTO {
+public class ProductContentDetailDTO {
     @NotNull
     @Id
     private int id;
@@ -64,4 +66,8 @@ public class Product_imgDetailDTO {
     private String seller_id; // seller.id 참조
 
     private List<Product_imgDTO> imagePaths; // 이미지 경로 리스트
+
+    private List<ReviewDTO> reviews; // 리뷰 목록
+
+    private List<Product_qnaDTO> product_qnas; //qna 목록
 }

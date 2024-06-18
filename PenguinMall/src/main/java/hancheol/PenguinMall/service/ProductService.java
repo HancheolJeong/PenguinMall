@@ -1,5 +1,6 @@
 package hancheol.PenguinMall.service;
 
+import hancheol.PenguinMall.dto.ProductContentDetailDTO;
 import hancheol.PenguinMall.dto.ProductDTO;
 import hancheol.PenguinMall.dto.Product_imgDetailDTO;
 
@@ -14,4 +15,5 @@ public interface ProductService {
     void deleteProduct(String id);
 
     Product_imgDetailDTO getProductImageDetails(Integer productId);
+    public ProductContentDetailDTO getProductContentDetails(Integer productId);
 }
