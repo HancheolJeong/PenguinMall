@@ -13,15 +13,14 @@ import lombok.*;
 @Table(name="customer")
 public class Customer extends BaseEntity{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // 또는 GenerationType.AUTO 등
     String id; // 고객 ID
     String pw; // 패스워드
     String name; // 이름
-    String phone_name; // 휴대폰번호
+    String phone_number; // 휴대폰번호
     String email; // 이메일
     Integer email_sub; // 이메일 수신여부 default 0
     String nickname; //별명
     String grade; // 등급
-    Integer drop; // 탈퇴여부
+    Integer drop_user; // 탈퇴여부
 
 }

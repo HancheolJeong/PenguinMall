@@ -38,8 +38,8 @@ public class CustomerDTO {
     private String nickname; // 별명
     
     @NotNull
-    private String grade; //별명
+    private String grade; //등급
     
     @NotNull
-    private int drop; // 탈퇴여부
+    private int drop_user; // 탈퇴여부
 }
