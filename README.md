@@ -22,11 +22,11 @@ InteliJ
 
 ### Front
 
-HTML, CSS, JavaScript, React, Redux
+React, Redux
 
 ### Back
 
-JAVA17, Gradle, SpringBoot 3.2.3, Oracle
+JAVA17, Gradle, SpringBoot 3.2.3, MySQL
 
 <br />
 <br />
@@ -46,6 +46,7 @@ JAVA17, Gradle, SpringBoot 3.2.3, Oracle
 # 🔑주요기능
 
 - JWT 사용자 인증, 파라미터 변조 방지
+- 반응형 웹
 
 <br />
 <br />
