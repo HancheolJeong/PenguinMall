@@ -32,10 +32,10 @@ public class CustomerServiceImpl implements CustomerService {
 //        customerDTO.setPw(encryptedPassword);
         LOGGER.info("Saving customer with ID: {}", userDTO.getId());
         userDTO.setPw(bCryptPasswordEncoder.encode(userDTO.getPw()));
-        User user = mapCustomerDtoToCustomer(userDTO);
+        User user = mapUserDtoToUser(userDTO);
         // 엔티티 저장 id랑 create_dt는 알아서 저장된다. seller_id는 참조키!
         user = userRepository.save(user);
-        userDTO = mapCustomerToCustomerDto(user);
+        userDTO = mapUserToUserDto(user);
         return CompletableFuture.completedFuture(userDTO);
     }
 
@@ -50,28 +50,28 @@ public class CustomerServiceImpl implements CustomerService {
                 // 비밀번호 검증은 입력된 평문 비밀번호와 저장된 해시된 비밀번호를 비교
                 if (bCryptPasswordEncoder.matches(pw, user.getPw())) {
                     // 비밀번호가 일치하면 CustomerDTO 반환
-                    return mapCustomerToCustomerDto(user);
+                    return mapUserToUserDto(user);
                 }
             }
             // 사용자가 없거나 비밀번호가 일치하지 않으면 null 반환
             return null;
         });
     }
-    private User mapCustomerDtoToCustomer(UserDTO dto) {
-        User product = new User();
-        product.setId(String.valueOf(dto.getId()));
-        product.setPw(dto.getPw());
-        product.setName(dto.getName());
-        product.setPhone_number(dto.getPhone_number());
-        product.setEmail(dto.getEmail());
-        product.setEmail_sub(dto.getEmail_sub());
-        product.setNickname(dto.getNickname());
-        product.setRole(dto.getRole());
-        product.setDrop_user(dto.getDrop_user());
-        return product;
+    private User mapUserDtoToUser(UserDTO dto) {
+        User user = new User();
+        user.setId(String.valueOf(dto.getId()));
+        user.setPw(dto.getPw());
+        user.setName(dto.getName());
+        user.setPhone_number(dto.getPhone_number());
+        user.setEmail(dto.getEmail());
+        user.setEmail_sub(dto.getEmail_sub());
+        user.setNickname(dto.getNickname());
+        user.setRole(dto.getRole());
+        user.setDrop_user(dto.getDrop_user());
+        return user;
     }
 
-    private UserDTO mapCustomerToCustomerDto(User user) {
+    private UserDTO mapUserToUserDto(User user) {
         UserDTO dto = new UserDTO();
         dto.setId(user.getId());
         dto.setPw(user.getPw());

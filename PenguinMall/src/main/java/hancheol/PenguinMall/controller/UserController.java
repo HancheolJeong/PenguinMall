@@ -22,26 +22,8 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-//    @PostMapping("/join")
-//    public CompletableFuture<ResponseEntity<Boolean>> login(@RequestBody String id, String pw) {
-//        LOGGER.info("Attempting login for: {}", id);
-//        return customerService.checkLogin(id, pw)
-//                .thenApply(success -> {
-//                    if (success) {
-//                        return ResponseEntity.ok(true); // Successfully logged in
-//                    } else {
-//                        return ResponseEntity.status(401).body(false); // Unauthorized access
-//                    }
-//                })
-//                .exceptionally(e -> {
-//                    LOGGER.error("Login failed: ", e);
-//                    return ResponseEntity.status(500).build(); // Internal server error
-//                });
-//
-//    }
-
     @PostMapping("/customer")
-    public CompletableFuture<ResponseEntity<UserDTO>> saveProduct(@RequestBody UserDTO userDTO) {
+    public CompletableFuture<ResponseEntity<UserDTO>> saveUser(@RequestBody UserDTO userDTO) {
         LOGGER.info("Saving new customer: {}", userDTO);
         return customerService.saveCustomer(userDTO)
                 .thenApply(ResponseEntity::ok)// CompletableFuture의 결과와 ProductDTO 객체가 준비되면 HTTP Status Code 200과 ProductDTO를 가지고 있는 ResponseEntity 객체를 생성한다
