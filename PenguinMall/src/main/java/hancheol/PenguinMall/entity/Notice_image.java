@@ -18,6 +18,8 @@ public class Notice_image extends BaseEntity{
 
     Integer sequence; // 이미지 순서
     String Image_path; // 이미지 경로
-    Integer nid; // notice.id 참조
 
+    @ManyToOne
+    @JoinColumn(name = "nid", referencedColumnName = "id")
+    private Notice notice; // 고객 참조
 }

@@ -20,6 +20,11 @@ public class Checkout extends BaseEntity {
     String state; // 주문/배송상태
     Integer refund; // 환불신청 X : 0 환불신청 O : 1
     String request; // 배달요청사항
-    Integer pid; // product.id 참조
-    String cid; // customer.id 참조
+    @ManyToOne
+    @JoinColumn(name = "pid", referencedColumnName = "id")
+    private Product product; // 참조되는 상품
+
+    @ManyToOne
+    @JoinColumn(name = "cid", referencedColumnName = "id")
+    private User user; // 고객 참조
 }

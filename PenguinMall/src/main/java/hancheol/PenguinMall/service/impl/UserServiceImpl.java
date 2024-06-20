@@ -1,23 +1,26 @@
 package hancheol.PenguinMall.service.impl;
 import hancheol.PenguinMall.dto.*;
+import hancheol.PenguinMall.entity.Product;
 import hancheol.PenguinMall.entity.User;
 import hancheol.PenguinMall.repository.UserRepository;
-import hancheol.PenguinMall.service.CustomerService;
+import hancheol.PenguinMall.service.UserService;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 @Service
-public class CustomerServiceImpl implements CustomerService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CustomerServiceImpl.class);
+public class UserServiceImpl implements UserService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    public CustomerServiceImpl(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder)
+    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder)
     {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
@@ -33,7 +36,6 @@ public class CustomerServiceImpl implements CustomerService {
         LOGGER.info("Saving customer with ID: {}", userDTO.getId());
         userDTO.setPw(bCryptPasswordEncoder.encode(userDTO.getPw()));
         User user = mapUserDtoToUser(userDTO);
-        // 엔티티 저장 id랑 create_dt는 알아서 저장된다. seller_id는 참조키!
         user = userRepository.save(user);
         userDTO = mapUserToUserDto(user);
         return CompletableFuture.completedFuture(userDTO);
@@ -57,6 +59,10 @@ public class CustomerServiceImpl implements CustomerService {
             return null;
         });
     }
+
+
+
+
     private User mapUserDtoToUser(UserDTO dto) {
         User user = new User();
         user.setId(String.valueOf(dto.getId()));

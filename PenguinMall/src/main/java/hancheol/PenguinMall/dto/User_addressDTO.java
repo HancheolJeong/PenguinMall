@@ -25,7 +25,8 @@ public class User_addressDTO {
 
     @NotNull
     private String address_detail; // 상세 주소
-
+    @NotNull
+    private String address_alias; // 주소목록
     @NotNull
     private String cid; // customer.id
 }

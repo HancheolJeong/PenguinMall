@@ -1,7 +1,5 @@
 package hancheol.PenguinMall.controller;
 
-import hancheol.PenguinMall.config.SecurityConfig;
-import hancheol.PenguinMall.service.CustomerService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +29,7 @@ public class MainController {
         GrantedAuthority auth = iter.next();
         String role = auth.getAuthority();
 
+        System.out.println(username + role);
 
         return "main Controller" + username + role;
     }

@@ -19,6 +19,12 @@ public class User_coupon extends BaseEntity{
     Integer id; // 고유 ID
     Integer amount; // 수량
     Date expiration_date; // 만료날짜
-    String cid; // customer.id
-    Integer coupon_id; // coupon.id
+
+    @ManyToOne
+    @JoinColumn(name = "coupon_id", referencedColumnName = "id")
+    private Coupon coupon; // 고객 참조
+
+    @ManyToOne
+    @JoinColumn(name = "cid", referencedColumnName = "id")
+    private User user; // 고객 참조
 }

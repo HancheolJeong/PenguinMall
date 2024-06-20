@@ -23,5 +23,7 @@ public class Product_qna {
     private Product product; // 참조되는 상품
 //    Integer pid; // product.id 참조
 
-    String cid; // customer.id 참조
+    @ManyToOne
+    @JoinColumn(name = "cid", referencedColumnName = "id")
+    private User user; // 고객 참조
 }

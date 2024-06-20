@@ -19,5 +19,8 @@ public class User_address extends BaseEntity{
     String postal_code; // 우편번호
     String address; // 주소
     String address_detail; // 상세 주소
-    String cid; // customer.id
+    String address_alias; // 주소목록
+    @ManyToOne
+    @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    private User user; // 고객 참조
 }

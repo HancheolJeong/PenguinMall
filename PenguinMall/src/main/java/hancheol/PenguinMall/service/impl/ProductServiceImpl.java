@@ -51,7 +51,7 @@ public class ProductServiceImpl implements ProductService {
             productDTO.setImage_path(product.getImage_path());
             productDTO.setInfo(product.getInfo());
             productDTO.setAllowance(product.getAllowance());
-            productDTO.setSeller_id(product.getSid());
+//            productDTO.setSeller_id(product.getSid());
             productDTOList.add(productDTO);
         }
         return productDTOList;
@@ -72,7 +72,7 @@ public class ProductServiceImpl implements ProductService {
         productDTO.setImage_path(product.getImage_path());
         productDTO.setInfo(product.getInfo());
         productDTO.setAllowance(product.getAllowance());
-        productDTO.setSeller_id(product.getSid());
+//        productDTO.setSeller_id(product.getSid());
         productDTO.setCreate_dt(product.getCreate_dt());
         return productDTO;
 
@@ -91,7 +91,7 @@ public class ProductServiceImpl implements ProductService {
         product.setImage_path(productDTO.getImage_path());
         product.setInfo(productDTO.getInfo());
         product.setAllowance(productDTO.getAllowance());
-        product.setSid(productDTO.getSeller_id());
+//        product.setSid(productDTO.getSeller_id());
         product = productRepository.save(product);
 
         productDTO.setId(product.getId());
@@ -120,7 +120,7 @@ public class ProductServiceImpl implements ProductService {
         dto.setImage_path(product.getImage_path());
         dto.setInfo(product.getInfo());
         dto.setAllowance(product.getAllowance());
-        dto.setSeller_id(product.getSid());
+//        dto.setSeller_id(product.getSid());
         dto.setCreate_dt(product.getCreate_dt());
 //        dto.setImagePaths(product.getImages().stream().map(Product_img::getImage_path).collect(Collectors.toList()));
         List<Product_imgDTO> images = product.getImages().stream()
@@ -150,7 +150,7 @@ public class ProductServiceImpl implements ProductService {
         dto.setImage_path(product.getImage_path());
         dto.setInfo(product.getInfo());
         dto.setAllowance(product.getAllowance());
-        dto.setSeller_id(product.getSid());
+//        dto.setSeller_id(product.getSid());
         dto.setCreate_dt(product.getCreate_dt());
 //        dto.setImagePaths(product.getImages().stream().map(Product_img::getImage_path).collect(Collectors.toList()));
         List<Product_imgDTO> images = product.getImages().stream()
@@ -171,7 +171,7 @@ public class ProductServiceImpl implements ProductService {
                     qnaDTO.setTitle(qna.getTitle());
                     qnaDTO.setQuestion(qna.getQuestion());
                     qnaDTO.setAnswer(qna.getAnswer());
-                    qnaDTO.setCid(qna.getCid());
+//                    qnaDTO.setCid(qna.getCid());
                     qnaDTO.setPid(product.getId());  // 상품 ID를 pid 필드에 설정
                     return qnaDTO;
                 }).collect(Collectors.toList());
@@ -183,7 +183,7 @@ public class ProductServiceImpl implements ProductService {
                     reviewDTO.setId(rv.getId());
                     reviewDTO.setTitle(rv.getTitle());
                     reviewDTO.setContent(rv.getContent());
-                    reviewDTO.setCid(rv.getCid());
+//                    reviewDTO.setCid(rv.getCid());
                     reviewDTO.setPid(product.getId());  // 상품 ID를 pid 필드에 설정
                     return reviewDTO;
                 }).collect(Collectors.toList());
@@ -202,7 +202,7 @@ public class ProductServiceImpl implements ProductService {
         product.setImage_path(dto.getImage_path());
         product.setInfo(dto.getInfo());
         product.setAllowance(dto.getAllowance());
-        product.setSid(dto.getSeller_id());
+//        product.setSid(dto.getSeller_id());
         return product;
     }
 
@@ -218,7 +218,7 @@ public class ProductServiceImpl implements ProductService {
         dto.setImage_path(product.getImage_path());
         dto.setInfo(product.getInfo());
         dto.setAllowance(product.getAllowance());
-        dto.setSeller_id(product.getSid());
+//        dto.setSeller_id(product.getSid());
         dto.setCreate_dt(product.getCreate_dt());
         return dto;
     }

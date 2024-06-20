@@ -32,7 +32,6 @@ public class Product extends BaseEntity{
 
     @Column(nullable = false, columnDefinition = "INTEGER DEFAULT 0")
     Integer allowance; //판매허용여부 default 0
-    String sid; // seller.id 참조
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Product_img> images; // 상품 이미지 리스트
@@ -42,5 +41,19 @@ public class Product extends BaseEntity{
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Review> reviews; // 리뷰 리스트
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Wishlist> wishlists; // 좋아요 리스트
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Cart> carts; // 장바구니 리스트
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Checkout> checkouts; // 구매상태 리스트
+
+
+    @ManyToOne
+    @JoinColumn(name = "sid", referencedColumnName = "id")
+    private User user; // 판매자 참조
 
 }

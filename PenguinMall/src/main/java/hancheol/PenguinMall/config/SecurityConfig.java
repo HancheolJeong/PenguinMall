@@ -84,7 +84,7 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/login", "/", "/join").permitAll() // 인증이 필요하지 않는 부분
+                        .requestMatchers("/login", "/", "/join", "/register").permitAll() // 인증이 필요하지 않는 부분
                         .anyRequest().authenticated());
 
         http

@@ -17,6 +17,8 @@ public class Review_img extends BaseEntity{
     Integer id; // id
     String image_path; // 이미지 경로
     Integer sequence; // 이미지 순서
-    Integer rid; // review.id 참조
+    @ManyToOne
+    @JoinColumn(name = "rid", referencedColumnName = "id")
+    private Review review; // 고객 참조
 
 }

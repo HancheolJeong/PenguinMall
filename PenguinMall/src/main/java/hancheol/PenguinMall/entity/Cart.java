@@ -16,6 +16,11 @@ public class Cart extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id; // 고유 ID
     Integer quantity; // 수량
-    Integer pid; // product.id 참조
-    String cid; // customer.id 참조
+    @ManyToOne
+    @JoinColumn(name = "pid", referencedColumnName = "id")
+    private Product product; // 참조되는 상품
+
+    @ManyToOne
+    @JoinColumn(name = "cid", referencedColumnName = "id")
+    private User user; // 고객 참조
 }
