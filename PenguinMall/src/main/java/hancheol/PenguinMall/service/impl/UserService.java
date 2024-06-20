@@ -1,6 +1,6 @@
 package hancheol.PenguinMall.service.impl;
 
-import hancheol.PenguinMall.dto.UserDetail;
+import hancheol.PenguinMall.dto.UserDetailDTO;
 import hancheol.PenguinMall.entity.User;
 import hancheol.PenguinMall.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,7 +24,7 @@ public class UserService implements UserDetailsService {
         User user = tmp_customer.orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
         if (user != null)
         {
-            return new UserDetail(user);
+            return new UserDetailDTO(user);
         }
 
         return null;
