@@ -1,70 +1,64 @@
 package hancheol.PenguinMall.service.impl;
 import hancheol.PenguinMall.dto.*;
-import hancheol.PenguinMall.entity.Customer;
-import hancheol.PenguinMall.repository.CustomerRepository;
+import hancheol.PenguinMall.entity.User;
+import hancheol.PenguinMall.repository.UserRepository;
 import hancheol.PenguinMall.service.CustomerService;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
+
 @Service
 public class CustomerServiceImpl implements CustomerService {
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomerServiceImpl.class);
-    private final CustomerRepository customerRepository;
+    private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    public CustomerServiceImpl(CustomerRepository customerRepository, BCryptPasswordEncoder bCryptPasswordEncoder)
+    public CustomerServiceImpl(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder)
     {
-        this.customerRepository = customerRepository;
+        this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 //        this.passwordEncoder = passwordEncoder;
     }
 
     @Async
     @Override
-    public CompletableFuture<CustomerDTO> saveCustomer(CustomerDTO customerDTO)
+    public CompletableFuture<UserDTO> saveCustomer(UserDTO userDTO)
     {
 //        String encryptedPassword = passwordEncoder.encode(customerDTO.getPw());
 //        customerDTO.setPw(encryptedPassword);
-        LOGGER.info("Saving customer with ID: {}", customerDTO.getId());
-        customerDTO.setPw(bCryptPasswordEncoder.encode(customerDTO.getPw()));
-        Customer customer = mapCustomerDtoToCustomer(customerDTO);
+        LOGGER.info("Saving customer with ID: {}", userDTO.getId());
+        userDTO.setPw(bCryptPasswordEncoder.encode(userDTO.getPw()));
+        User user = mapCustomerDtoToCustomer(userDTO);
         // 엔티티 저장 id랑 create_dt는 알아서 저장된다. seller_id는 참조키!
-        customer = customerRepository.save(customer);
-        customerDTO = mapCustomerToCustomerDto(customer);
-        return CompletableFuture.completedFuture(customerDTO);
+        user = userRepository.save(user);
+        userDTO = mapCustomerToCustomerDto(user);
+        return CompletableFuture.completedFuture(userDTO);
     }
 
     @Async
     @Override
-    public CompletableFuture<Boolean> checkLogin(String id, String pw) {
-
-//        Boolean isExist = customerRepository.existsById(id);
-//        if(isExist)
-//        {
-//            return false;
-//        }
+    public CompletableFuture<UserDTO> checkLogin(String id, String pw) {
 
         return CompletableFuture.supplyAsync(() -> {
-            Optional<Customer> customerOpt = customerRepository.findById(id);
+            Optional<User> customerOpt = userRepository.findById(id);
             if (customerOpt.isPresent()) {
-                Customer customer = customerOpt.get();
-                if (customer.getPw().equals(pw)) {
-                    return true;
+                User user = customerOpt.get();
+                // 비밀번호 검증은 입력된 평문 비밀번호와 저장된 해시된 비밀번호를 비교
+                if (bCryptPasswordEncoder.matches(pw, user.getPw())) {
+                    // 비밀번호가 일치하면 CustomerDTO 반환
+                    return mapCustomerToCustomerDto(user);
                 }
             }
-            return false;
+            // 사용자가 없거나 비밀번호가 일치하지 않으면 null 반환
+            return null;
         });
     }
-    private Customer mapCustomerDtoToCustomer(CustomerDTO dto) {
-        Customer product = new Customer();
+    private User mapCustomerDtoToCustomer(UserDTO dto) {
+        User product = new User();
         product.setId(String.valueOf(dto.getId()));
         product.setPw(dto.getPw());
         product.setName(dto.getName());
@@ -72,22 +66,22 @@ public class CustomerServiceImpl implements CustomerService {
         product.setEmail(dto.getEmail());
         product.setEmail_sub(dto.getEmail_sub());
         product.setNickname(dto.getNickname());
-        product.setGrade(dto.getGrade());
+        product.setRole(dto.getRole());
         product.setDrop_user(dto.getDrop_user());
         return product;
     }
 
-    private CustomerDTO mapCustomerToCustomerDto(Customer customer) {
-        CustomerDTO dto = new CustomerDTO();
-        dto.setId(customer.getId());
-        dto.setPw(customer.getPw());
-        dto.setName(customer.getName());
-        dto.setPhone_number(customer.getPhone_number());
-        dto.setEmail(customer.getEmail());
-        dto.setEmail_sub(customer.getEmail_sub());
-        dto.setNickname(customer.getNickname());
-        dto.setGrade(customer.getGrade());
-        dto.setDrop_user(customer.getDrop_user());
+    private UserDTO mapCustomerToCustomerDto(User user) {
+        UserDTO dto = new UserDTO();
+        dto.setId(user.getId());
+        dto.setPw(user.getPw());
+        dto.setName(user.getName());
+        dto.setPhone_number(user.getPhone_number());
+        dto.setEmail(user.getEmail());
+        dto.setEmail_sub(user.getEmail_sub());
+        dto.setNickname(user.getNickname());
+        dto.setRole(user.getRole());
+        dto.setDrop_user(user.getDrop_user());
         return dto;
     }
 }

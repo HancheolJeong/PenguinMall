@@ -12,8 +12,8 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 @ToString
-@Table(name="customer_coupon")
-public class Customer_coupon extends BaseEntity{
+@Table(name="user_coupon")
+public class User_coupon extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 또는 GenerationType.AUTO 등
     Integer id; // 고유 ID

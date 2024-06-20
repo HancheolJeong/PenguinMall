@@ -1,11 +1,9 @@
 package hancheol.PenguinMall.dto;
 
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import java.time.LocalDateTime;
+
 /**
  * 계층 간 데이터 전송을 위해 사용되는 객체
  */
@@ -14,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @ToString
 @Builder
-public class CustomerDTO {
+public class UserDTO {
     @NotNull
     @Id
     private String id; //id
@@ -38,7 +36,7 @@ public class CustomerDTO {
     private String nickname; // 별명
     
     @NotNull
-    private String grade; //등급
+    private String role; //등급
     
     @NotNull
     private int drop_user; // 탈퇴여부

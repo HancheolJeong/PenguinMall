@@ -1,11 +1,9 @@
 package hancheol.PenguinMall.dto;
 
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import java.time.LocalDateTime;
+
 import java.util.Date;
 
 /**
@@ -16,7 +14,7 @@ import java.util.Date;
 @AllArgsConstructor
 @ToString
 @Builder
-public class Customer_couponDTO {
+public class User_couponDTO {
     @NotNull
     @Id
     private int id; // id

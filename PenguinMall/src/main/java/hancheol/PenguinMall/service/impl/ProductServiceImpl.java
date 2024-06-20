@@ -2,8 +2,6 @@ package hancheol.PenguinMall.service.impl;
 
 import hancheol.PenguinMall.dto.*;
 import hancheol.PenguinMall.entity.Product;
-import hancheol.PenguinMall.entity.Product_img;
-import hancheol.PenguinMall.entity.Product_qna;
 import hancheol.PenguinMall.repository.ProductRepository;
 import hancheol.PenguinMall.service.ProductService;
 import org.springframework.scheduling.annotation.Async;
@@ -53,7 +51,7 @@ public class ProductServiceImpl implements ProductService {
             productDTO.setImage_path(product.getImage_path());
             productDTO.setInfo(product.getInfo());
             productDTO.setAllowance(product.getAllowance());
-            productDTO.setSeller_id(product.getSeller_id());
+            productDTO.setSeller_id(product.getSid());
             productDTOList.add(productDTO);
         }
         return productDTOList;
@@ -74,7 +72,7 @@ public class ProductServiceImpl implements ProductService {
         productDTO.setImage_path(product.getImage_path());
         productDTO.setInfo(product.getInfo());
         productDTO.setAllowance(product.getAllowance());
-        productDTO.setSeller_id(product.getSeller_id());
+        productDTO.setSeller_id(product.getSid());
         productDTO.setCreate_dt(product.getCreate_dt());
         return productDTO;
 
@@ -93,7 +91,7 @@ public class ProductServiceImpl implements ProductService {
         product.setImage_path(productDTO.getImage_path());
         product.setInfo(productDTO.getInfo());
         product.setAllowance(productDTO.getAllowance());
-        product.setSeller_id(productDTO.getSeller_id());
+        product.setSid(productDTO.getSeller_id());
         product = productRepository.save(product);
 
         productDTO.setId(product.getId());
@@ -122,7 +120,7 @@ public class ProductServiceImpl implements ProductService {
         dto.setImage_path(product.getImage_path());
         dto.setInfo(product.getInfo());
         dto.setAllowance(product.getAllowance());
-        dto.setSeller_id(product.getSeller_id());
+        dto.setSeller_id(product.getSid());
         dto.setCreate_dt(product.getCreate_dt());
 //        dto.setImagePaths(product.getImages().stream().map(Product_img::getImage_path).collect(Collectors.toList()));
         List<Product_imgDTO> images = product.getImages().stream()
@@ -152,7 +150,7 @@ public class ProductServiceImpl implements ProductService {
         dto.setImage_path(product.getImage_path());
         dto.setInfo(product.getInfo());
         dto.setAllowance(product.getAllowance());
-        dto.setSeller_id(product.getSeller_id());
+        dto.setSeller_id(product.getSid());
         dto.setCreate_dt(product.getCreate_dt());
 //        dto.setImagePaths(product.getImages().stream().map(Product_img::getImage_path).collect(Collectors.toList()));
         List<Product_imgDTO> images = product.getImages().stream()
@@ -204,7 +202,7 @@ public class ProductServiceImpl implements ProductService {
         product.setImage_path(dto.getImage_path());
         product.setInfo(dto.getInfo());
         product.setAllowance(dto.getAllowance());
-        product.setSeller_id(dto.getSeller_id());
+        product.setSid(dto.getSeller_id());
         return product;
     }
 
@@ -220,7 +218,7 @@ public class ProductServiceImpl implements ProductService {
         dto.setImage_path(product.getImage_path());
         dto.setInfo(product.getInfo());
         dto.setAllowance(product.getAllowance());
-        dto.setSeller_id(product.getSeller_id());
+        dto.setSeller_id(product.getSid());
         dto.setCreate_dt(product.getCreate_dt());
         return dto;
     }

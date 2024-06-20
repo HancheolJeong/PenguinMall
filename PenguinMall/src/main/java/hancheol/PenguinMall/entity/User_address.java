@@ -10,8 +10,8 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @ToString
-@Table(name="customer_address")
-public class Customer_address extends BaseEntity{
+@Table(name="user_address")
+public class User_address extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 또는 GenerationType.AUTO 등
     Integer id;

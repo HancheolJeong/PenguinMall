@@ -10,8 +10,8 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @ToString
-@Table(name="customer")
-public class Customer extends BaseEntity{
+@Table(name="user")
+public class User extends BaseEntity{
     @Id
     String id; // 고객 ID
     String pw; // 패스워드
@@ -20,7 +20,7 @@ public class Customer extends BaseEntity{
     String email; // 이메일
     Integer email_sub; // 이메일 수신여부 default 0
     String nickname; //별명
-    String grade; // 등급
+    String role; // 역할
     Integer drop_user; // 탈퇴여부
 
 }
