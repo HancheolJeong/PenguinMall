@@ -23,7 +23,7 @@ public class CartDTO {
     private int quantity; // 수량
 
     @NotNull
-    private int pid; // product.id 참조
+    private int product_id; // product.id 참조
 
     @NotNull
     private String cid; // customer.id 참조

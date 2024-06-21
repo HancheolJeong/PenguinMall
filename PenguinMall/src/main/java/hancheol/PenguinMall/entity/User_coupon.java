@@ -25,6 +25,6 @@ public class User_coupon extends BaseEntity{
     private Coupon coupon; // 고객 참조
 
     @ManyToOne
-    @JoinColumn(name = "cid", referencedColumnName = "id")
+    @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private User user; // 고객 참조
 }

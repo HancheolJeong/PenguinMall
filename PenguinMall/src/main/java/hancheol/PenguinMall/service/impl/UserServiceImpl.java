@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -31,9 +32,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public CompletableFuture<UserDTO> saveCustomer(UserDTO userDTO)
     {
-//        String encryptedPassword = passwordEncoder.encode(customerDTO.getPw());
-//        customerDTO.setPw(encryptedPassword);
-        LOGGER.info("Saving customer with ID: {}", userDTO.getId());
         userDTO.setPw(bCryptPasswordEncoder.encode(userDTO.getPw()));
         User user = mapUserDtoToUser(userDTO);
         user = userRepository.save(user);
@@ -41,26 +39,112 @@ public class UserServiceImpl implements UserService {
         return CompletableFuture.completedFuture(userDTO);
     }
 
-    @Async
-    @Override
-    public CompletableFuture<UserDTO> checkLogin(String id, String pw) {
 
-        return CompletableFuture.supplyAsync(() -> {
-            Optional<User> customerOpt = userRepository.findById(id);
-            if (customerOpt.isPresent()) {
-                User user = customerOpt.get();
-                // 비밀번호 검증은 입력된 평문 비밀번호와 저장된 해시된 비밀번호를 비교
-                if (bCryptPasswordEncoder.matches(pw, user.getPw())) {
-                    // 비밀번호가 일치하면 CustomerDTO 반환
-                    return mapUserToUserDto(user);
-                }
-            }
-            // 사용자가 없거나 비밀번호가 일치하지 않으면 null 반환
-            return null;
-        });
+    @Override
+    public UserInfoDTO getUserInfoDTO(String id) {
+        Optional<User> tmpUser = userRepository.findById(id);
+        User user = tmpUser.orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+
+        UserInfoDTO dto = new UserInfoDTO();
+        dto.setId(user.getId());
+        dto.setName(user.getName()); // 이름으로 설정
+        dto.setPhone_number(user.getPhone_number());
+        dto.setEmail(user.getEmail());
+        dto.setEmail_sub(user.getEmail_sub());
+        dto.setNickname(user.getNickname());
+        dto.setRole(user.getRole());
+        dto.setDrop_user(user.getDrop_user());
+
+        // 사용자 주소 목록을 DTO로 변환
+        List<User_addressDTO> addresses = user.getAddresses().stream()
+                .map(adr -> {
+                    User_addressDTO aDto = new User_addressDTO();
+                    aDto.setId(adr.getId());
+                    aDto.setPostal_code(adr.getPostal_code());
+                    aDto.setAddress(adr.getAddress());
+                    aDto.setAddress_detail(adr.getAddress_detail());
+                    aDto.setAddress_alias(adr.getAddress_alias());
+                    aDto.setCid(user.getId().toString());  // User의 ID를 CID로 설정
+                    return aDto;
+                }).collect(Collectors.toList());
+        dto.setAddresses(addresses);
+
+        return dto;
     }
 
 
+    @Async
+    @Override
+    public CompletableFuture<UserInfoDTO> getUserInfoDTO2(String id) {
+        return CompletableFuture.supplyAsync(() -> {
+            Optional<User> tmpUser = userRepository.findById(id);
+            User user = tmpUser.orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+
+            UserInfoDTO dto = new UserInfoDTO();
+            dto.setId(user.getId());
+            dto.setName(user.getName());
+            dto.setPhone_number(user.getPhone_number());
+            dto.setEmail(user.getEmail());
+            dto.setEmail_sub(user.getEmail_sub());
+            dto.setNickname(user.getNickname());
+            dto.setRole(user.getRole());
+            dto.setDrop_user(user.getDrop_user());
+
+            List<User_addressDTO> addresses = user.getAddresses().stream()
+                    .map(adr -> {
+                        User_addressDTO aDto = new User_addressDTO();
+                        aDto.setId(adr.getId());
+                        aDto.setPostal_code(adr.getPostal_code());
+                        aDto.setAddress(adr.getAddress());
+                        aDto.setAddress_detail(adr.getAddress_detail());
+                        aDto.setAddress_alias(adr.getAddress_alias());
+                        aDto.setCid(user.getId().toString());
+                        return aDto;
+                    }).collect(Collectors.toList());
+            dto.setAddresses(addresses);
+
+            return dto;
+        });
+    }
+
+    @Async
+    @Override
+    public CompletableFuture<UserInfoDTO> getUserInfoDTO3(String id) {
+        User user = (User) userRepository.findById(id).orElse(null);
+
+        UserInfoDTO dto = new UserInfoDTO();
+        dto.setId(user.getId());
+        dto.setName(user.getName());
+        dto.setPhone_number(user.getPhone_number());
+        dto.setEmail(user.getEmail());
+        dto.setEmail_sub(user.getEmail_sub());
+        dto.setNickname(user.getNickname());
+        dto.setRole(user.getRole());
+        dto.setDrop_user(user.getDrop_user());
+
+        List<User_addressDTO> addresses = user.getAddresses().stream()
+                .map(adr -> {
+                    User_addressDTO aDto = new User_addressDTO();
+                    aDto.setId(adr.getId());
+                    aDto.setPostal_code(adr.getPostal_code());
+                    aDto.setAddress(adr.getAddress());
+                    aDto.setAddress_detail(adr.getAddress_detail());
+                    aDto.setAddress_alias(adr.getAddress_alias());
+                    aDto.setCid(user.getId().toString());
+                    return aDto;
+                }).collect(Collectors.toList());
+        dto.setAddresses(addresses);
+
+        return CompletableFuture.completedFuture(dto);
+    }
+
+    @Override
+    public void deleteUser(String id) {
+        if (!userRepository.existsById(id)) {
+            throw new RuntimeException("Product not found");
+        }
+        userRepository.deleteById(id);
+    }
 
 
     private User mapUserDtoToUser(UserDTO dto) {

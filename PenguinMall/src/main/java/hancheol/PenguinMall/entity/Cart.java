@@ -17,7 +17,7 @@ public class Cart extends BaseEntity {
     Integer id; // 고유 ID
     Integer quantity; // 수량
     @ManyToOne
-    @JoinColumn(name = "pid", referencedColumnName = "id")
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product; // 참조되는 상품
 
     @ManyToOne

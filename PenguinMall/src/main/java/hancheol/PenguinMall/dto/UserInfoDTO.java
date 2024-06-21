@@ -1,5 +1,6 @@
 package hancheol.PenguinMall.dto;
 
+import hancheol.PenguinMall.entity.User_coupon;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -43,9 +44,23 @@ public class UserInfoDTO {
     @NotNull
     private int drop_user; // 탈퇴여부
 
-    private List<User_addressDTO> imagePaths; // 이미지 경로 리스트
+    private List<User_addressDTO> addresses; // 이미지 경로 리스트
 
-    private List<ReviewDTO> reviews; // 리뷰 목록
+    private List<CartDTO> carts; // 장바구리 리스트
 
-    private List<Product_qnaDTO> product_qnas; //qna 목록
+    private List<ReviewDTO> reviews; //리뷰 리스트
+
+    private List<WishlistDTO> wishlists; // 좋아요 리스트
+
+    private List<User_couponDTO> coupons; // 쿠폰 리스트
+
+    private List<CheckoutDTO> checkouts; // 구매목록 리스트
+
+    private List<Product_qnaDTO> qnas; // 질문과답변 리스트
+
+    private List<ProductDTO> products; // 상품 리스트
+
+    private List<NoticeDTO> notices; // 공지사항 리스트
+
+
 }

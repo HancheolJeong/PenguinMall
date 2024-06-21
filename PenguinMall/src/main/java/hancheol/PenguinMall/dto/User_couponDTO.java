@@ -24,7 +24,7 @@ public class User_couponDTO {
     
     private Date expiration_date; // 만료날짜
     
-    private String cid; // customer.id 참조
+    private String customer_id; // customer.id 참조
     
     private int coupon_id; // coupon.id 참조
     
