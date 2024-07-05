@@ -36,7 +36,7 @@ JAVA17, Gradle, SpringBoot 3.2.3, MySQL
 <details>
 <summary>ERD</summary>
 <div markdown="1" style="padding-left: 15px;">
-<img src="https://github.com/HancheolJeong/PenguinMall/assets/70940120/f1cbac4e-e5bf-46cf-8054-c67063673aad.png" width="800px"/>
+<img src="https://github.com/HancheolJeong/PenguinMall/assets/70940120/3b1e062e-8d5b-4af3-84a2-fbb8cf95af3a.png" width="800px"/>
 </div>
 </details>
 
@@ -55,3 +55,6 @@ JAVA17, Gradle, SpringBoot 3.2.3, MySQL
 <br />
 
 # 💻실행화면
+
+# 변경사항
+- ERD를 추가했습니다.
