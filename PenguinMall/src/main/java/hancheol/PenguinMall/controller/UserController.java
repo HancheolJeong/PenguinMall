@@ -58,6 +58,9 @@ public class UserController {
                 .exceptionally(e -> ResponseEntity.notFound().build()); // 예외가 발생했을 때, HTTP Status Code 404를 반환하는 ResponseEntity 객체를 생성한다. 이는 클라이언트에게 해당 요청이 실패했음을 알립니다.
     }
 
+    /*
+    * 사용자 정보를 시큐리티에서 가져옵니다.
+     */
     @GetMapping("/user")
     public ResponseEntity<UserInfoDTO> loadUser() {
         try {
